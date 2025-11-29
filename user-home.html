@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Binge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(42, 10, 61, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(74, 26, 109, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .circular-menu {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        
+        .menu-item {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .menu-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.5);
+        }
+        
+        .diversity-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            background: rgba(42, 10, 61, 0.3);
+            border: 2px solid rgba(107, 70, 193, 0.5);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .speedometer-container {
+            position: relative;
+            width: 200px;
+            height: 120px;
+            margin: 20px auto;
+        }
+        
+        .speedometer-arc {
+            width: 200px;
+            height: 100px;
+            border-radius: 100px 100px 0 0;
+            background: conic-gradient(from 0deg at 50% 100%, #2a0a3d 0deg, #4a1a6d 72deg, #6b46c1 144deg, #8b5cf6 216deg, #a78bfa 288deg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .speedometer-arc::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 0;
+            background: rgba(42, 10, 61, 0.9);
+            border-radius: 90px 90px 0 0;
+        }
+        
+        .speedometer-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom center;
+            width: 3px;
+            height: 80px;
+            background: linear-gradient(to top, #ef4444, #f87171);
+            border-radius: 2px;
+            transform: translateX(-50%) rotate(-90deg);
+            transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+        
+        .speedometer-needle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -5px;
+            width: 13px;
+            height: 13px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+        
+        .speedometer-center {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #1a0a2a;
+            border: 3px solid #6b46c1;
+            border-radius: 50%;
+            z-index: 15;
+        }
+        
+        .speedometer-marks {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+        }
+        
+        .speedometer-mark {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            transform-origin: bottom center;
+        }
+        
+        .speedometer-number {
+            position: absolute;
+            bottom: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            transform: translateX(-50%);
+        }
+        
+        .stats-card {
+            background: rgba(42, 10, 61, 0.2);
+            border: 1px solid rgba(74, 26, 109, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .welcome-animation {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .score-animation {
+            animation: scorePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes scorePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Particle Background -->
+    <div id="particle-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold gradient-text">Binge</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="about.html" class="text-white hover:text-purple-400 px-3 py-2 text-sm font-medium transition-colors duration-300">About Us</a>
+                        <a href="get-started.html" class="text-white hover:text-purple-400 px-3 py-2 text-sm font-medium transition-colors duration-300">Get Started</a>
+                        <button onclick="handleLogout()" class="text-white hover:text-purple-400 px-3 py-2 text-sm font-medium transition-colors duration-300">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <section class="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="text-center mb-12 welcome-animation">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    Welcome back, Arun! 👋
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Ready to explore diverse perspectives and boost your diversity score?
+                </p>
+            </div>
+            
+            <!-- Dashboard Grid -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Circular Menu -->
+                <div class="lg:col-span-2">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold gradient-text mb-2">Navigate Your Experience</h2>
+                        <p class="text-gray-300">Click on any option to explore different features</p>
+                    </div>
+                    
+                    <div class="circular-menu">
+                        <!-- Menu Items -->
+                        <div class="menu-item" data-page="home" style="top: 20px; left: 50%; transform: translateX(-50%);" title="Home">
+                            🏠
+                        </div>
+                        <div class="menu-item" data-page="feed" style="top: 50%; right: 20px; transform: translateY(-50%);" title="Feed">
+                            📰
+                        </div>
+                        <div class="menu-item" data-page="wallet" style="bottom: 20px; left: 50%; transform: translateX(-50%);" title="Wallet">
+                            💰
+                        </div>
+                        <div class="menu-item" data-page="voice" style="top: 50%; left: 20px; transform: translateY(-50%);" title="Your Voice Matters">
+                            🎤
+                        </div>
+                        
+                        <!-- Diversity Score Center -->
+                        <div class="diversity-center">
+                            <div class="speedometer-container">
+                                <div class="speedometer-arc">
+                                    <div class="speedometer-marks" id="speedometer-marks"></div>
+                                </div>
+                                <div class="speedometer-needle" id="diversity-needle"></div>
+                                <div class="speedometer-center"></div>
+                                
+                                <!-- Score Display -->
+                                <div style="position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); text-align: center;">
+                                    <div class="text-3xl font-bold gradient-text" id="score-display">85</div>
+                                    <div class="text-sm text-gray-300">Diversity Score</div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-12">
+                                <div class="text-sm text-gray-300">What's your score?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Panel -->
+                <div class="space-y-6">
+                    <!-- Diversity Score Card -->
+                    <div class="stats-card p-6 rounded-2xl score-animation">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-purple-400">Diversity Score</h3>
+                            <div class="text-2xl">🎯</div>
+                        </div>
+                        <div class="text-3xl font-bold gradient-text mb-2">85/100</div>
+                        <div class="text-sm text-gray-300 mb-4">Excellent! You're doing great</div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-purple-600 to-purple-400 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bing Tokens -->
+                    <div class="stats-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-purple-400">Bing Tokens</h3>
+                            <div class="text-2xl">💎</div>
+                        </div>
+                        <div class="text-3xl font-bold gradient-text mb-2">1,247</div>
+                        <div class="text-sm text-gray-300">+89 this week</div>
+                    </div>
+                    
+                    <!-- Engagement Stats -->
+                    <div class="stats-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-purple-400">This Week</h3>
+                            <div class="text-2xl">📊</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Posts viewed</span>
+                                <span class="text-white font-semibold">127</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Diverse content</span>
+                                <span class="text-green-400 font-semibold">73%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Discussions</span>
+                                <span class="text-white font-semibold">23</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">New perspectives</span>
+                                <span class="text-purple-400 font-semibold">8</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="stats-card p-6 rounded-2xl">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button onclick="showNotification('Feature coming soon!', 'info')" class="w-full bg-purple-800 bg-opacity-50 hover:bg-opacity-70 text-white py-3 px-4 rounded-xl transition-all duration-300 text-left">
+                                🔄 Refresh Diversity Feed
+                            </button>
+                            <button onclick="showNotification('Feature coming soon!', 'info')" class="w-full bg-purple-800 bg-opacity-50 hover:bg-opacity-70 text-white py-3 px-4 rounded-xl transition-all duration-300 text-left">
+                                🎤 Share Your Perspective
+                            </button>
+                            <button onclick="showNotification('Feature coming soon!', 'info')" class="w-full bg-purple-800 bg-opacity-50 hover:bg-opacity-70 text-white py-3 px-4 rounded-xl transition-all duration-300 text-left">
+                                👥 Join Discussion
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Activity -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-4">Your Recent Activity</h2>
+                <p class="text-xl text-gray-300">See how you've been promoting diversity</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="stats-card p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">+5</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-white">Engaged with diverse content</div>
+                            <div class="text-sm text-gray-300">2 hours ago</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm">You read an article from a different political perspective and left a constructive comment.</p>
+                </div>
+                
+                <div class="stats-card p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">+3</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-white">Bridged communities</div>
+                            <div class="text-sm text-gray-300">5 hours ago</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm">You shared content that brought together users from different ideological backgrounds.</p>
+                </div>
+                
+                <div class="stats-card p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">+7</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-white">Healthy discussion</div>
+                            <div class="text-sm text-gray-300">1 day ago</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm">You participated in a respectful debate that helped others understand different viewpoints.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold gradient-text mb-2">Binge</h3>
+                <p class="text-gray-400">Social media that rewards diversity and healthy engagement.</p>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-500">
+                    © 2024 Binge. All rights reserved. Built for a more diverse and inclusive digital world.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        function handleLogout() {
+            // Clear any stored data
+            localStorage.removeItem('selectedRole');
+            
+            // Add loading animation
+            anime({
+                targets: 'body',
+                opacity: [1, 0.8],
+                duration: 300,
+                complete: () => {
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+        
+        // Initialize speedometer
+        function initializeSpeedometer() {
+            const marksContainer = document.getElementById('speedometer-marks');
+            const needle = document.getElementById('diversity-needle');
+            const scoreDisplay = document.getElementById('score-display');
+            
+            // Create speedometer marks and numbers
+            for (let i = 0; i <= 10; i++) {
+                const angle = (i * 18) - 90; // Spread over 180 degrees (-90 to +90)
+                
+                // Create mark
+                const mark = document.createElement('div');
+                mark.className = 'speedometer-mark';
+                mark.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                mark.style.opacity = i % 2 === 0 ? '1' : '0.5';
+                mark.style.height = i % 2 === 0 ? '20px' : '15px';
+                marksContainer.appendChild(mark);
+                
+                // Create number for every even mark
+                if (i % 2 === 0) {
+                    const number = document.createElement('div');
+                    number.className = 'speedometer-number';
+                    number.textContent = i * 10;
+                    
+                    const numberAngle = angle * Math.PI / 180;
+                    const radius = 70;
+                    const x = Math.cos(numberAngle) * radius;
+                    const y = Math.sin(numberAngle) * radius;
+                    
+                    number.style.left = `calc(50% + ${x}px)`;
+                    number.style.bottom = `${25 + y}px`;
+                    
+                    marksContainer.appendChild(number);
+                }
+            }
+            
+            // Animate needle to current score
+            setTimeout(() => {
+                const currentScore = 85;
+                const needleAngle = (currentScore / 100) * 180 - 90;
+                needle.style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
+                
+                // Animate score display
+                anime({
+                    targets: scoreDisplay,
+                    innerHTML: [0, currentScore],
+                    duration: 2000,
+                    easing: 'easeOutQuad',
+                    round: 1
+                });
+            }, 500);
+        }
+        
+        // Initialize circular menu
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize speedometer
+            initializeSpeedometer();
+            
+            // Add click handlers to menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    
+                    // Animate click
+                    anime({
+                        targets: this,
+                        scale: [1, 0.9, 1],
+                        duration: 300,
+                        easing: 'easeOutQuad'
+                    });
+                    
+                    // Show notification for now
+                    showNotification(`Navigating to ${page}...`, 'info');
+                });
+            });
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

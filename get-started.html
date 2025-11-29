@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started - Choose Your Role</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2a 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-nav {
+            background: rgba(42, 10, 61, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(74, 26, 109, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c5ce8, #5b21a5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 70, 193, 0.3);
+        }
+        
+        .role-card {
+            background: rgba(42, 10, 61, 0.1);
+            border: 2px solid rgba(74, 26, 109, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .role-card:hover {
+            background: rgba(74, 26, 109, 0.2);
+            border-color: #6b46c1;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.3);
+        }
+        
+        .role-card.selected {
+            background: rgba(107, 70, 193, 0.3);
+            border-color: #6b46c1;
+            box-shadow: 0 0 30px rgba(107, 70, 193, 0.5);
+        }
+        
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(107, 70, 193, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(107, 70, 193, 0.6); }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Particle Background -->
+    <div id="particle-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold gradient-text">Binge</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="about.html" class="text-white hover:text-purple-400 px-3 py-2 text-sm font-medium transition-colors duration-300">About Us</a>
+                        <a href="get-started.html" class="text-purple-400 px-3 py-2 text-sm font-medium">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold gradient-text mb-6 animate-on-scroll">
+                Choose Your Role
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 animate-on-scroll">
+                Join Binge as a user or creator and start earning rewards for diverse engagement
+            </p>
+        </div>
+    </section>
+    
+    <!-- Role Selection -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- User Card -->
+                <div class="role-card p-8 rounded-3xl animate-on-scroll" id="user-card" onclick="selectRole('user')">
+                    <div class="text-center mb-8">
+                        <div class="floating-icon text-7xl mb-6">👥</div>
+                        <h2 class="text-4xl font-bold gradient-text mb-4">User</h2>
+                        <p class="text-xl text-gray-300">
+                            Discover diverse content, engage thoughtfully, and earn rewards
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-purple-900 bg-opacity-30 p-4 rounded-xl">
+                            <h3 class="text-xl font-semibold mb-3 text-purple-400">What You'll Do:</h3>
+                            <ul class="space-y-2 text-gray-300">
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Explore diverse perspectives</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Engage in healthy discussions</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Build your diversity score</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Earn Bing tokens</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-900 bg-opacity-30 p-4 rounded-xl">
+                            <h3 class="text-xl font-semibold mb-3 text-purple-400">Benefits:</h3>
+                            <ul class="space-y-2 text-gray-300">
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">💰</span>
+                                    <span>Convert tokens to real value</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">🎯</span>
+                                    <span>Access premium features</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">🏆</span>
+                                    <span>Gain platform recognition</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">🧠</span>
+                                    <span>Expand your worldview</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <div class="text-sm text-gray-400 mb-4">Perfect for:</div>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Curious minds</span>
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Open thinkers</span>
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Community builders</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Creator Card -->
+                <div class="role-card p-8 rounded-3xl animate-on-scroll" id="creator-card" onclick="selectRole('creator')">
+                    <div class="text-center mb-8">
+                        <div class="floating-icon text-7xl mb-6">🎨</div>
+                        <h2 class="text-4xl font-bold gradient-text mb-4">Creator</h2>
+                        <p class="text-xl text-gray-300">
+                            Create diverse content, build communities, and maximize your earnings
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-purple-900 bg-opacity-30 p-4 rounded-xl">
+                            <h3 class="text-xl font-semibold mb-3 text-purple-400">What You'll Do:</h3>
+                            <ul class="space-y-2 text-gray-300">
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Create balanced, diverse content</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Attract diverse audiences</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Foster healthy discussions</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-400 mr-3">✓</span>
+                                    <span>Bridge ideological divides</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-900 bg-opacity-30 p-4 rounded-xl">
+                            <h3 class="text-xl font-semibold mb-3 text-purple-400">Benefits:</h3>
+                            <ul class="space-y-2 text-gray-300">
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">💎</span>
+                                    <span>Higher token rewards</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">📈</span>
+                                    <span>Increased content visibility</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">🎯</span>
+                                    <span>Access to creator tools</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-blue-400 mr-3">🤝</span>
+                                    <span>Build loyal, diverse communities</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <div class="text-sm text-gray-400 mb-4">Perfect for:</div>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Content creators</span>
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Influencers</span>
+                            <span class="bg-purple-800 bg-opacity-50 px-3 py-1 rounded-full text-sm">Thought leaders</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Continue Button -->
+            <div class="text-center mt-12 animate-on-scroll">
+                <button id="continue-btn" class="btn-primary px-12 py-4 rounded-full text-xl font-medium text-white btn-hover opacity-50 cursor-not-allowed" disabled onclick="continueToLogin()">
+                    Continue to Login
+                </button>
+                <p class="text-sm text-gray-400 mt-4">Please select a role to continue</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Comparison Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Not Sure Which Role?</h2>
+                <p class="text-xl text-gray-300">
+                    Here's a quick comparison to help you decide
+                </p>
+            </div>
+            
+            <div class="bg-purple-900 bg-opacity-20 rounded-3xl p-8 animate-on-scroll">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-6 text-purple-400">👥 User</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center">
+                                <span class="text-green-400 mr-3">✓</span>
+                                <span>Consume and engage with content</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-green-400 mr-3">✓</span>
+                                <span>Build diversity score through engagement</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-green-400 mr-3">✓</span>
+                                <span>Participate in discussions</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-green-400 mr-3">✓</span>
+                                <span>Earn tokens for diverse engagement</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-6 text-purple-400">🎨 Creator</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center">
+                                <span class="text-blue-400 mr-3">✓</span>
+                                <span>Create and publish content</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-blue-400 mr-3">✓</span>
+                                <span>Build and manage communities</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-blue-400 mr-3">✓</span>
+                                <span>Attract diverse audiences</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-blue-400 mr-3">✓</span>
+                                <span>Higher earning potential</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <p class="text-gray-300">
+                        <strong>Good news:</strong> You can switch between roles or have both! Many users start as users and become creators later.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold gradient-text mb-2">Binge</h3>
+                <p class="text-gray-400">Social media that rewards diversity and healthy engagement.</p>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-500">
+                    © 2024 Binge. All rights reserved. Built for a more diverse and inclusive digital world.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        let selectedRole = null;
+        
+        function selectRole(role) {
+            // Remove previous selection
+            document.getElementById('user-card').classList.remove('selected');
+            document.getElementById('creator-card').classList.remove('selected');
+            
+            // Add selection to clicked card
+            document.getElementById(role + '-card').classList.add('selected');
+            
+            selectedRole = role;
+            
+            // Enable continue button
+            const continueBtn = document.getElementById('continue-btn');
+            continueBtn.disabled = false;
+            continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            continueBtn.classList.add('pulse-glow');
+            
+            // Update button text
+            continueBtn.textContent = `Continue as ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+        }
+        
+        function continueToLogin() {
+            if (selectedRole) {
+                // Store selected role in localStorage
+                localStorage.setItem('selectedRole', selectedRole);
+                
+                // Add loading animation
+                anime({
+                    targets: 'body',
+                    opacity: [1, 0.8],
+                    duration: 300,
+                    complete: () => {
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

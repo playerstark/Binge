@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Binge - Breaking Echo Chambers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2a 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-nav {
+            background: rgba(42, 10, 61, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(74, 26, 109, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6b46c1, #4a1a6d);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c5ce8, #5b21a5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 70, 193, 0.3);
+        }
+        
+        .content-card {
+            background: rgba(42, 10, 61, 0.1);
+            border: 1px solid rgba(74, 26, 109, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .algorithm-step {
+            background: rgba(74, 26, 109, 0.1);
+            border-left: 4px solid #6b46c1;
+        }
+        
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Particle Background -->
+    <div id="particle-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold gradient-text">Binge</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="about.html" class="text-purple-400 px-3 py-2 text-sm font-medium">About Us</a>
+                        <a href="get-started.html" class="btn-primary px-6 py-2 rounded-full text-sm font-medium text-white btn-hover">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold gradient-text mb-6 animate-on-scroll">
+                About Binge
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8 animate-on-scroll">
+                Revolutionizing social media by eliminating echo chambers and rewarding diverse perspectives
+            </p>
+        </div>
+    </section>
+    
+    <!-- What Makes Us Different -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold gradient-text mb-4">What Makes Binge Different</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Unlike traditional social media that traps you in echo chambers, Binge actively promotes diverse thinking and rewards healthy engagement.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-on-scroll">
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-3xl font-bold mb-6 text-purple-400">🔄 Traditional Social Media</h3>
+                        <ul class="space-y-4 text-gray-300">
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-3">❌</span>
+                                <span>Creates echo chambers by showing similar content</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-3">❌</span>
+                                <span>Rewards extreme content and polarization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-3">❌</span>
+                                <span>Promotes tribalism and division</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-3">❌</span>
+                                <span>Focuses on engagement at any cost</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="animate-on-scroll">
+                    <div class="content-card p-8 rounded-2xl border-purple-500">
+                        <h3 class="text-3xl font-bold mb-6 text-purple-400">✨ Binge Social Media</h3>
+                        <ul class="space-y-4 text-gray-300">
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-3">✅</span>
+                                <span>Actively breaks echo chambers with diverse content</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-3">✅</span>
+                                <span>Rewards thoughtful engagement and diversity</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-3">✅</span>
+                                <span>Promotes understanding and healthy discourse</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-3">✅</span>
+                                <span>Values quality over quantity engagement</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Diversity Algorithm -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Our Diversity Algorithm</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    A revolutionary approach to content curation that ensures you see all sides of every story.
+                </p>
+            </div>
+            
+            <div class="space-y-8">
+                <div class="algorithm-step p-6 rounded-xl animate-on-scroll">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-3 text-purple-400">Content Analysis</h3>
+                            <p class="text-gray-300 text-lg">
+                                Our AI analyzes content across multiple dimensions - political spectrum, cultural perspective, geographic origin, and ideological stance. Every piece of content gets tagged with its position in the diversity spectrum.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-step p-6 rounded-xl animate-on-scroll">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-3 text-purple-400">User Behavior Tracking</h3>
+                            <p class="text-gray-300 text-lg">
+                                We track your engagement patterns to understand your natural content preferences. If you consistently interact with one type of content, our algorithm takes note and begins planning interventions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-step p-6 rounded-xl animate-on-scroll">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-3 text-purple-400">Diversity Intervention</h3>
+                            <p class="text-gray-300 text-lg">
+                                When the algorithm detects you're in an echo chamber, it strategically introduces diverse content that challenges your perspective while remaining respectful and constructive.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-step p-6 rounded-xl animate-on-scroll">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">4</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-3 text-purple-400">Reward System</h3>
+                            <p class="text-gray-300 text-lg">
+                                You earn Bing tokens for engaging with diverse content, having constructive discussions across different viewpoints, and maintaining a healthy diversity score. Better scores lead to better earnings.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Bing Token Rewards -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Bing Token Rewards</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Get rewarded for being a good digital citizen and promoting healthy discourse.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="content-card p-8 rounded-2xl text-center animate-on-scroll">
+                    <div class="text-6xl mb-4">👥</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-400">Users</h3>
+                    <ul class="text-left space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Engage with diverse content</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Have constructive discussions</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Maintain high diversity score</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Bridge different communities</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="content-card p-8 rounded-2xl text-center animate-on-scroll">
+                    <div class="text-6xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-400">Creators</h3>
+                    <ul class="text-left space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Create diverse, balanced content</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Attract diverse audiences</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Foster healthy discussions</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-400 mr-2">+</span>
+                            <span>Bridge ideological divides</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="content-card p-8 rounded-2xl text-center animate-on-scroll">
+                    <div class="text-6xl mb-4">🌟</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-400">Benefits</h3>
+                    <ul class="text-left space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="text-blue-400 mr-2">💰</span>
+                            <span>Convert tokens to real value</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-blue-400 mr-2">🔓</span>
+                            <span>Access premium features</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-blue-400 mr-2">🏆</span>
+                            <span>Gain platform recognition</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-blue-400 mr-2">🚀</span>
+                            <span>Increase content visibility</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Impact Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Our Impact</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    By eliminating echo chambers, we're creating a more understanding and less polarized digital world.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-on-scroll">
+                    <h3 class="text-3xl font-bold mb-6 text-purple-400">Reducing Polarization</h3>
+                    <p class="text-gray-300 text-lg mb-6">
+                        Traditional social media algorithms create filter bubbles that reinforce existing beliefs and increase polarization. This leads to:
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-red-400 mr-3">•</span>
+                            <span>Increased social division and tribalism</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-400 mr-3">•</span>
+                            <span>Reduced empathy and understanding</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-400 mr-3">•</span>
+                            <span>Spread of misinformation and extremism</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-400 mr-3">•</span>
+                            <span>Real-world violence and social unrest</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="animate-on-scroll">
+                    <h3 class="text-3xl font-bold mb-6 text-purple-400">Building Bridges</h3>
+                    <p class="text-gray-300 text-lg mb-6">
+                        Binge's diversity algorithm actively works to:
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3">•</span>
+                            <span>Expose users to different perspectives respectfully</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3">•</span>
+                            <span>Reward constructive dialogue and understanding</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3">•</span>
+                            <span>Build empathy across ideological divides</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3">•</span>
+                            <span>Create a healthier, more informed society</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="bg-gradient-to-r from-purple-900 to-purple-700 rounded-3xl p-12 animate-on-scroll">
+                <h2 class="text-4xl font-bold mb-6">Join the Movement</h2>
+                <p class="text-xl mb-8 text-gray-200">
+                    Be part of the solution. Help create a more diverse, understanding, and less polarized digital world.
+                </p>
+                <a href="get-started.html" class="btn-primary px-10 py-4 rounded-full text-xl font-medium text-white btn-hover inline-block">
+                    Get Started Now
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold gradient-text mb-2">Binge</h3>
+                <p class="text-gray-400">Social media that rewards diversity and healthy engagement.</p>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-500">
+                    © 2024 Binge. All rights reserved. Built for a more diverse and inclusive digital world.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="main.js"></script>
+</body>
+</html>
